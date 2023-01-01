@@ -1,0 +1,132 @@
+[
+    {
+        "name": "SanDisk ultra 128 GB SDXC UHS-I Memory card up to 80 MB/s",
+    "price": 500,
+    "description": "Ultra fast card to take better pictures and Full hd videos",
+    "ratings": 4.0,
+    "images": [{
+        "public_id": "ehgfakjdf73r72",
+        "url": "wdcbileu/dguy/wdbe"
+    }],
+    "category": "Electronics",
+    "seller": "ebay",
+    "stock": 5,
+    "numofReviews":32,
+    "reviews": [
+        {
+            "name": "Saraib",
+            "rating":5,
+            "comment":"product is Good"
+        }
+    ]
+    },
+    {
+        
+            "name": "Nike shoe",
+        "price": 500,
+        "description": "Sport shoes",
+        "ratings": 5.0,
+        "images": [{
+            "public_id": "ehgfakjdf73r7234",
+            "url": "wdcbileu/dguy/wdbe/2eee"
+        }],
+        "category": "Shoes",
+        "seller": "Amazone",
+        "stock": 5,
+        "numofReviews":31,
+        "reviews": [
+            {
+                "name": "Aman",
+                "rating":5,
+                "comment":"product is fantastics"
+            }
+        ]
+    },
+    {
+        "name": "Iphone",
+        "price": 70000,
+        "description": "I phone x with best camera quality with stoage",
+        "ratings": 5.0,
+        "images": [{
+            "public_id": "ehgfakjdf73r7234dw",
+            "url": "wdcbileu/dguy/wdbe/2eee3e"
+        }],
+        "category": "Mobiles",
+        "seller": "Flipkart",
+        "stock": 5,
+        "numofReviews":31,
+        "reviews": [
+            {
+                "name": "Ankit",
+                "rating":5,
+                "comment":"product is fantastics"
+            }
+        ]
+    },
+    {
+
+        "name": "Jbl Headphones",
+        "price": 500,
+        "description": "earphones",
+        "ratings": 5.0,
+        "images": [{
+            "public_id": "ehgfakjdf73r7234",
+            "url": "wdcbileu/dguy/wdbe/2eee"
+        }],
+        "category": "Headphones",
+        "seller": "Amazone",
+        "stock": 5,
+        "numofReviews":31,
+        "reviews": [
+            {
+                "name": "Sahil",
+                "rating":5,
+                "comment":"product is fantastics"
+            }
+        ]
+    },{
+
+        "name": "Nike shoe",
+        "price": 500,
+        "description": "Sport shoes",
+        "ratings": 5.0,
+        "images": [{
+            "public_id": "ehgfakjdf73r7234",
+            "url": "wdcbileu/dguy/wdbe/2eee"
+        }],
+        "category": "Shoes",
+        "seller": "Amazone",
+        "stock": 5,
+        "numofReviews":31,
+        "reviews": [
+            {
+                "name": "Aman",
+                "rating":5,
+                "comment":"product is fantastics"
+            }
+        ]
+    },{
+
+        "name": "Nike T-shirts",
+        "price": 500,
+        "description": "Sport clothes",
+        "ratings": 5.0,
+        "images": [{
+            "public_id": "ehgfakjdf73r7234",
+            "url": "wdcbileu/dguy/wdbe/2eee"
+        }],
+        "category": "Clothes",
+        "seller": "Flipkart",
+        "stock": 5,
+        "numofReviews":31,
+        "reviews": [
+            {
+                "name": "Amar",
+                "rating":5,
+                "comment":"product is fantastics"
+            }
+        ]
+    }
+
+]
+
