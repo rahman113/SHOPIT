@@ -65,12 +65,11 @@ const userSchema = mongoose.Schema({
         type: String,
         default: 'user'
     },
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
+   
     resetPasswordToken: String,
     resetPasswordExpire: Date
+}, {
+    timestamp: true
 })
 //delete some sensitive data like password and token .
 userSchema.methods.toJSON = function () {
@@ -120,7 +119,10 @@ userSchema.pre('save', function (next) {
          next()
     })
 })
-
+// compare user password
+ userSchema.methods.comparePassword = async function (password) {
+     return await bcrypt.compare(password, this.password)
+ }   
 // Generate passwrod reset token
 userSchema.methods.getResetPasswordToken = function () {
     // Generate token
@@ -128,10 +130,11 @@ userSchema.methods.getResetPasswordToken = function () {
 
     // hash and set to resetPasswordToken
     this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+console.log("model file", this.resetPasswordToken);
     // set token expires time
-    this.resetPasswordExpire = Date.now() + 30 * 60 * 60 * 1000
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000 // resetPasswordToken expires in 30 minutes
     return resetToken
 }
 
-const User = mongoose.model('User', userSchema)
+const   User = mongoose.model('User', userSchema)
 module.exports = User;

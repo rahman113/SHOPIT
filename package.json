@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "set NODE_ENV=DEVELOPMENT& nodemon backend/server",
-    "prod": "set NODE_ENV=PRODUCTION& nodemon backend/server",
+    "dev": "set NODE_ENV = DEVELOPMENT & nodemon backend/server",
+    "prod": "set NODE_ENV = PRODUCTION &  nodemon backend/server",
     "seeder": "node backend/utils/seeders"
   },
   "author": "Ataur Rahman",
