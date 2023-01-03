@@ -1,5 +1,5 @@
 const express = require('express')
-const router = new express.Router()
+
 const crypto = require('crypto')
 const User = require('../models/user')
 const ErrorHandler = require("../utils/errorHandler")
@@ -49,18 +49,59 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     sendToken(user, 200, res)
 })
 
-// user logout => /api/v1/logout
+// update /change password => /api/v1/password/update
 
-exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
-    res.cookie("token", null, {
-        expires: new Date(Date.now()),
-        httpOnly: true
-    })
+exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+
+    const user = await User.findById(req.user.id)
+    const isMatch = user.comparePassword(req.body.oldPassword)
+    if (!isMatch) {
+        return next(new ErrorHandler("old password is not correct", 400))
+
+    }
+    user.password = req.body.password
+    await user.save()
     res.status(200).json({
-        sucess: true, message: 'user logged out successfully'
+        sucess: true,
+        message: 'password updated successfully',
+        user
     })
 })
+// Get currently loged in user Details => /api/v1/me
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id)
 
+    res.status(200).json({
+        sucess: true,
+        user
+    })
+}
+
+);
+// update UserProfile => /api/v1/me/update
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+
+    const newUserDetails = {
+        name: req.body.name,
+        email: req.body.email,
+    }
+
+    // Update avatar: TODO
+
+    const user = await User.findByIdAndUpdate(req.user.id, newUserDetails,
+
+        {
+            new: true,
+            runValidators: true,
+            findAndModify: false
+
+        })
+    res.status(200).json({
+        sucess: true,
+        message: "User profile updated successfully",
+    })
+}
+)
 // forgot Password => /api/v1/password/forgoot   
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
@@ -88,60 +129,125 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
             message: `Email sent to: ${user.email}`
         })
 
-    } catch (e) {
-
+    } catch (error) {
+        console.log(error);
         user.resetPasswordToken = undefined;
         user.resetPasswordExpire = undefined;
         await user.save({ validateBeforeSave: false })
-        return next(new ErrorHandler(error.message, 500))
+        return next(new ErrorHandler('Email could not be sent', 500))
+
     }
 
 })
 
 // reset password => /api/v1/password/reset/:token
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
-    // Hash the token
-    console.log(req.params.token);
-    const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex")
-console.log("reset password token", resetPasswordToken);
-    const user = await User.findOne({ 
-       
+    // Hash url token               
+
+    const resetPasswordToken = crypto.
+        createHash("sha256").
+        update(req.params.token).
+        digest("hex")
+    console.log("resetpasswordToken", resetPasswordToken);
+    const user = await User.findOne({
+
         resetPasswordToken,
-        resetPasswordExpire: {$gt: Date.now()} // expiry time that is save in db must be greater than current time
-     })
-     console.log("User",user);
-     if (!user) {
+        resetPasswordExpire: { $gt: Date.now() } // expiry time that is save in db must be greater than current time
+    })
+    console.log("User", user);
+    if (!user) {
         return next(new ErrorHandler("Password reset token is invalid or has been expired", 400))
 
-     }
-     if (req.body.password !== confirmPassword) {
+    }
+    if (req.body.password !== confirmPassword) {
         return next(new ErrorHandler("Password does not match ", 400))
 
-     }
-     // setup new password
-           user.password = req.body.password;
-          user.resetPasswordToken = undefined;
-          user.resetPasswordExpire = undefined;
+    }
+    // setup new password
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
 
 
-          await user.save()
-         sendToken(user, 200, res)
+    await user.save()
+    sendToken(user, 200, res)
 
 
 })
-// // getting all users
+// user logout => /api/v1/logout
 
-// router.get('/user/all', async (req, res, next) => {
-//     const users = await User.find({})
-//     try {
-//         res.status(200).json({
-//             success: true,
-//             count: users.length,
-//             users
-//         })
-//     }
-//     catch (e) {
-//         res.status(500).send(e.message)
-//     }
-// })
-// module.exports = router;
+exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true
+    })
+    res.status(200).json({
+        sucess: true, message: 'user logged out successfully'
+    })
+})
+
+
+// Admin Routes
+// admin users => /api/v1/admin/users
+exports.allUsers = catchAsyncErrors(async (req, res, next) => {
+    const users = await User.find()
+    res.status(200).json({
+        sucess: true,
+        count: users.length,
+        users: users
+    })
+});
+
+// get User Details => /api/v1/admin/user/:id
+exports.userDetailes = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById({ _id: req.params.id })
+    if (!user) {
+        return next(new ErrorHandler(`user not found with id:  ${req.params.id}`))
+    }
+    res.status(200).json({
+        sucess: true,
+        user: user
+    });
+})
+// admin update user profile => /api/v1/admin/user/:id
+exports.updateUser = catchAsyncErrors(async (req, res, next) => {
+
+    const newUserDetails = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
+    }
+
+    const user = await User.findByIdAndUpdate(req.params.id, newUserDetails,
+
+        {
+            new: true,
+            runValidators: true,
+            findAndModify: false
+
+        })
+    res.status(200).json({
+        sucess: true,
+        message: "User profile updated successfully",
+    })
+}
+)
+
+//  Delet user => /api/v1/admin/user/:id
+
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById({ _id: req.params.id })
+    if (!user) {
+        return next(new ErrorHandler(`user not found with id:  ${req.params.id}`))
+    }
+    // Remove avatar from cloudinary server: TODO
+    await user.remove()
+    res.status(200).json({
+        sucess: true,
+        message: "User profile deleted successfully",
+        user: user
+    });
+})
+
+
+

@@ -28,6 +28,23 @@ if(err.name === "ValidatorError") {
   const message = Object.values(err.errors).map(value => value.message)
   error = new ErrorHandler(message, 400)
 }
+// Handling monggose  duplicate key errors
+if(err.code === 11000) {
+  const message = `Duplicate ${Object.keys(err.keVakue)} entered`
+  error = new ErrorHandler(message, 400)
+
+}
+// Handling wrong jwt error
+if(err.name === "JsonWebTokenError") {
+  const message = "JSON Web Token is invalid! Try again"
+  error = new ErrorHandler(message, 400)
+}
+// Handling expired jwt error
+
+if(err.name === "TokenExpiredError"){
+  const message = "JSON Web Token is expired! Try again"
+  error = new ErrorHandler(message, 400)
+}
   res.status(err.statusCode).json({ success: false,  message: err.message || "internal server error" })
   }
 }

@@ -21,12 +21,13 @@ const server = app.listen(process.env.PORT, () => {
 
 
 
-// Handle Unhandled promise rejections
-
+/* Handle Unhandled promise rejections
+ex: mongod://127.0.0.1:27017/SHOPIT
+*/
 process.on('unhandledRejection', err => {
-    console.log(`Error: ${err.message}`)
+    console.log(`Error: ${err.meassage}`)
     console.log("shutting down the server due to unhandeled promise rejections")
     server.close(() => {
         process.exit(1)
     })
-});
+}); 
