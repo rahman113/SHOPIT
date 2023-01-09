@@ -3,6 +3,7 @@ const Product = require('../models/product')
 const ApiFeatures = require('../utils/apiFeatures')
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncErrors = require("../middleware/catchAsyncErrors")
+const { LoggerLevel } = require('mongodb')
 // create new product  => /api/v1/admin/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 
@@ -15,15 +16,17 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
     const product = await products.save()
     res.status(201).json({ success: true, msg: "product inserted successfully.", product })
 })
-// Get all products => /api/v1/products?keyword = apple
+// Get all products => /api/v1/products?keyword=apple
 exports.getProducts = catchAsyncErrors(async (req, res) => {
 
     const resPerPage = 4;
     const productCount = await Product.countDocuments();
     const apiFeatures = new ApiFeatures(Product.find(), req.query)
-        .search()
-        .filter()
-        .pagination(resPerPage)
+   
+        .search() 
+        //.filter()
+        //.pagination(resPerPage)
+        console.log("apiFeatures:", apiFeatures);
     const products = await apiFeatures.query;
     res.status(200).json({ "success": "true", "count": products.length, productCount, products })
 })

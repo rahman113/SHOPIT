@@ -24,12 +24,7 @@ const productSchema = new mongoose.Schema({
     ratings: {
         type: Number,
         max: 5.0,
-        default: -1.0,
-        validate(value){
-            if(value <= -1.0 && value <=5.0){
-                throw new Error('Invalid rating')
-            }
-        }
+        default: 0
     },
     images: [
         {
@@ -54,7 +49,7 @@ const productSchema = new mongoose.Schema({
                 'Accessories',
                 'Headphones',
                 'Food',
-                'Laptop',
+                'Laptops',
                 'Mobiles',
                 'Clothes',
                 'Shoes',
@@ -75,7 +70,7 @@ const productSchema = new mongoose.Schema({
     stock: {
         type: Number,
         required: [true, 'please enter product stock'],
-        max: [5, 'product stock can not exceed 5 characters'],
+        maxLength: [5, 'product stock can not exceed 5 characters'],
         default: 0
     },
     numofReviews: {
@@ -87,7 +82,7 @@ const productSchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
-                required: true,
+                //required: true,
                 ref: 'User'
             },
             name: {
@@ -106,7 +101,7 @@ const productSchema = new mongoose.Schema({
     ],
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        //required: true,
         ref: 'User'
     }
 },

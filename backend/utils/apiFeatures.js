@@ -4,16 +4,22 @@ class ApiFeatures {
         this.queryStr = queryStr
     }
     search() {
-        const keyword = this.queryStr.keyword ? {
+        const keyword = this.queryStr.keyword ? { // ternary operator
             name: {
                 $regex: this.queryStr.keyword,
-                $options: 'i'
+                $options: 'i' // case insensitive
             }
-        } : {}
-        console.log(keyword)
+        } :{}
+        console.log("Keyword:",keyword) //output Keyword: { name: { '$regex': 'SanDisk', '$options': 'i' } }
+
         this.query = this.query.find({ ...keyword })
+        console.log("this.query: ",this.query);
+        console.log("this.queryStr:",this.queryStr); //  queryStr: { keyword: 'SanDisk' }
         return this;
+       
     }
+
+ // filtering   
     filter() {
         const queryCopy = { ...this.queryStr }
 
@@ -30,7 +36,7 @@ class ApiFeatures {
         this.query = this.query.find(JSON.parse(queryStr))
         return this
     }
-
+// Pagination
     pagination(resPerPage) {
         const currentPage = Number(this.queryStr.page) || 1;
         const skip = resPerPage * (currentPage - 1)
