@@ -13,8 +13,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'please enter the product price '],
         maxLength: [5, 'maxLength of the product price can not exceed 5 characters'],
-        
-
+        default: 0.0
     },
     description: {
         type: String,
@@ -28,7 +27,7 @@ const productSchema = new mongoose.Schema({
     },
     images: [
         {
-            public_id:{
+            public_id: {
                 type: String,
                 required: true
             },
@@ -95,7 +94,7 @@ const productSchema = new mongoose.Schema({
             },
             comment: {
                 type: String,
-                required: true  
+                required: true
             }
         }
     ],
@@ -107,10 +106,10 @@ const productSchema = new mongoose.Schema({
 },
 
     {// createdAt: {
-    //     type: Date,
-    //     default: Date.now
-    // }
+        //     type: Date,
+        //     default: Date.now
+        // }
         timestamps: true
-})
+    })
 module.exports = mongoose.model('Product', productSchema)
 

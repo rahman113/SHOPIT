@@ -3,7 +3,7 @@ const Product = require('../models/product')
 const ApiFeatures = require('../utils/apiFeatures')
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncErrors = require("../middleware/catchAsyncErrors")
-const { LoggerLevel } = require('mongodb')
+
 // create new product  => /api/v1/admin/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 

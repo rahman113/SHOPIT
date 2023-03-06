@@ -1,4 +1,4 @@
-const express = require('express')
+
 
 const crypto = require('crypto')
 const User = require('../models/user')
@@ -20,12 +20,10 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         avatar: {
             public_id: "ehgfakjdf73r7234",
             url: "wdcbileu/dguy/wdbe/2eee"
-
         }
     })
     sendToken(user, 200, res)
 }
-
     // const users = new User(req.body)
     // try {
     //     const user = await users.save()
@@ -40,7 +38,6 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 // user login => /api/v1/login
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body
-
     // check if email ans password is entered by user
     if (!email || !password) {
         return next(new ErrorHandler("please enter  email and password", 400))
@@ -70,7 +67,6 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 // Get currently loged in user Details => /api/v1/me
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id)
-
     res.status(200).json({
         sucess: true,
         user
@@ -80,16 +76,12 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 );
 // update UserProfile => /api/v1/me/update
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-
     const newUserDetails = {
         name: req.body.name,
         email: req.body.email,
     }
-
     // Update avatar: TODO
-
     const user = await User.findByIdAndUpdate(req.user.id, newUserDetails,
-
         {
             new: true,
             runValidators: true,
@@ -167,8 +159,6 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
     user.password = req.body.password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
-
-
     await user.save()
     sendToken(user, 200, res)
 
@@ -217,8 +207,7 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
         email: req.body.email,
         role: req.body.role
     }
-
-    const user = await User.findByIdAndUpdate(req.params.id, newUserDetails,
+const user = await User.findByIdAndUpdate(req.params.id, newUserDetails,
 
         {
             new: true,

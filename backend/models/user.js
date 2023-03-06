@@ -65,9 +65,9 @@ const userSchema = mongoose.Schema({
         type: String,
         default: 'user'
     },
-    created_at: {
+    createdAt: {
         type: Date,
-        default: Date.now,
+        default: Date.now
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date
@@ -81,6 +81,24 @@ userSchema.methods.toJSON = function () {
     delete userObject.tokens
     return userObject;
 }
+// hash the plain text password before saving the user
+// hash the plain text password before saving the user
+userSchema.pre('save', function (next) {
+    const user = this
+    // only hash the password if it has been modified (or is new)
+    if (!user.isModified("password")) {
+        next()
+    }
+    // hash the password using salt
+    bcrypt.hash(user.password, 10, (err, hash) => {
+        if (err) {
+            return next(err)
+        }
+        // override the cleartext password with the hashed one
+        user.password = hash;
+        next();
+    })
+})
 // Return JWT token
 userSchema.methods.generateAuthToken = async function () {
     const user = this
@@ -92,6 +110,7 @@ userSchema.methods.generateAuthToken = async function () {
     await user.save()
     return token;
 }
+
 userSchema.statics.findByCredentiales = async (email, password) => {
     // finding user in database 
     const user = await User.findOne({ email: email })
@@ -106,23 +125,7 @@ userSchema.statics.findByCredentiales = async (email, password) => {
     return user
 }
 
-// hash the plain text password before saving the user
-userSchema.pre('save', function (next) {
-    const user = this
-    // only hash the password if it has been modified (or is new)
-    if (!user.isModified("password")) {
-        next()
-    }
-    // hash the password using salt
-    bcrypt.hash(user.password, 08, (err, hash) => {
-        if (err) {
-            return next(err)
-        }
-        // override the cleartext password with the hashed one
-        user.password = hash;
-        next();
-    })
-})
+
 // compare user password
 userSchema.methods.comparePassword = function(candidatePassword) {
    return bcrypt.compare(candidatePassword, this.password) };

@@ -1,10 +1,18 @@
 
+
+
+import  Header  from './components/layouts/Header';
+import  Footer  from './components/layouts/Footer';
+import  Home from './components/Home'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-    <h1>ShopIT</h1>
+    < Header />
+    < Home />
+    < Footer/ >
+   
     </div>
   );
 }

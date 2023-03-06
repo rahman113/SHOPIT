@@ -15,7 +15,7 @@ class ApiFeatures {
         this.query = this.query.find({ ...keyword })
         console.log("this.query: ",this.query);
         console.log("this.queryStr:",this.queryStr); //  queryStr: { keyword: 'SanDisk' }
-        return this;
+        return this;    
        
     }
 

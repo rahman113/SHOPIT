@@ -4,8 +4,8 @@ const Product = require("../models/product")
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncErrors = require("../middleware/catchAsyncErrors")
 const Order = require("../models/order")
-const { response } = require("express")
-const product = require("../models/product")
+
+
 
 // create a new order => /api/v1/order/new
 exports.newOrder = catchAsyncErrors(async (req, res) => {
