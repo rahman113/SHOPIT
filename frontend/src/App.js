@@ -1,19 +1,26 @@
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
+import Header from './components/layouts/Header';
+import Footer from './components/layouts/Footer';
+import Home from './components/Home'
 
-import  Header  from './components/layouts/Header';
-import  Footer  from './components/layouts/Footer';
-import  Home from './components/Home'
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-    < Header />
-    < Home />
-    < Footer/ >
-   
-    </div>
+
+    <Router>
+      <div className="App">
+      
+        < Header />
+        <div className="container container-fluid">
+          <Route path='/' component={Home} exact />
+        </div>
+        < Footer />
+
+      </div>
+    </Router>
   );
 }
 
