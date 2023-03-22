@@ -17,20 +17,35 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
     res.status(201).json({ success: true, msg: "product inserted successfully.", product })
 })
 // Get all products => /api/v1/products?keyword=apple
-exports.getProducts = catchAsyncErrors(async (req, res) => {
+exports.getProducts = catchAsyncErrors(async (req, res, next) => {
+        
+    const resPerPage = 8;
+    const productsCount = await Product.countDocuments();
 
-    const resPerPage = 4;
-    const productCount = await Product.countDocuments();
+
     const apiFeatures = new ApiFeatures(Product.find(), req.query)
-   
-        .search() 
-        //.filter()
-        //.pagination(resPerPage)
-        console.log("apiFeatures:", apiFeatures);
+        .search()
+        .filter()
+        .pagination(resPerPage)
     const products = await apiFeatures.query;
-    res.status(200).json({ "success": "true", "count": products.length, productCount, products })
+   
+        res.status(200).json({
+            success: true,
+            productsCount,
+            products
+        })
 })
+// Get all products (Admin)  =>   /api/v1/admin/products
+exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
 
+    const products = await Product.find();
+
+    res.status(200).json({
+        success: true,
+        products
+    })
+
+})
 // Get a single product  => api/v1/product/:id
 
 exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
@@ -69,7 +84,7 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
 
 // create new review => /api/v1/review
-exports.createProductReview = catchAsyncErrors(async (req, res) => {
+exports.createProductReview = catchAsyncErrors(async (req, res,next) => {
 
     const { rating, comment, productId } = req.body
     const review = {
