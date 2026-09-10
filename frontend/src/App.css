@@ -1,3 +1,7 @@
+/* ==========================================================================
+   1. BASE / RESET
+   ========================================================================== */
+
 html,
 body {
   font-family: 'Amazon Ember';
@@ -8,7 +12,25 @@ body {
   overflow-x: hidden;
 }
 
-/* Scroll Bar */
+.btn.focus,
+.btn:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: white;
+}
+
+
+/* ==========================================================================
+   2. SCROLLBAR
+   ========================================================================== */
 
 ::-webkit-scrollbar-track {
   background-color: #f5f5f5;
@@ -26,13 +48,17 @@ body {
   border-radius: 5px;
 }
 
+
+/* ==========================================================================
+   3. NAVBAR / HEADER
+   ========================================================================== */
+
 nav {
   background-color: #232f3e;
   padding: 1rem 1rem;
-}
-
-#search_btn {
-  background-color: #febd69;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .input-group {
@@ -45,6 +71,10 @@ nav {
   padding: 1rem;
 }
 
+#search_btn {
+  background-color: #febd69;
+}
+
 #login_btn,
 #view_btn {
   background-color: #febd69;
@@ -55,18 +85,205 @@ nav {
 #cart {
   font-size: 1rem;
   color: white;
+  display: inline-flex;
+  align-items: center;
+}
+
+#cart i {
+  margin-right: 0.3rem;
+  font-size: 1.1rem;
+}
+
+.cart-icon-wrapper {
+  display: inline-block;
+  font-size: 1.5rem;
 }
 
 #cart_count {
-  background-color: #febd69;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.2rem;
+  position: absolute;
+  top: -01px;
+  right: -03px;
+  background-color: #f8c27b;
   color: black;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 50%;
+  line-height: 1;
 }
 
-/* Home page */
+/* Header user avatar (nav bar) */
+.avatar-nav {
+  margin-right: 0.6rem;
+  height: 2.2rem;
+  width: 2.2rem;
+  margin-bottom: 0 !important;
+}
+
+
+/* ==========================================================================
+   4. LOGIN & REGISTER
+   ========================================================================== */
+
+.login-wrapper {
+  min-height: 90vh;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4ecf7 100%);
+}
+
+.login-card {
+  border-radius: 16px;
+  background: #fff;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.login-title {
+  font-weight: 700;
+  color: #222;
+}
+
+.input-icon-wrap {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.login-input {
+  padding-left: 38px;
+  border-radius: 8px;
+  height: 45px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 0 3px rgba(114, 46, 209, 0.15);
+  border-color: #722ed1;
+}
+
+.toggle-password-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  cursor: pointer;
+}
+
+.forgot-link {
+  float: right;
+  font-size: 0.9rem;
+  color: #722ed1;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #722ed1, #9254de);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.login-btn:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.login-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.register-link {
+  color: #722ed1;
+  font-weight: 500;
+}
+
+.avatar-upload-row {
+  gap: 4px;
+}
+
+.avatar-preview-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border: 2px solid #e4ecf7;
+}
+
+.custom-file-label {
+  border-radius: 8px;
+}
+
+/* Legacy generic form wrapper — used by other forms (e.g. review/edit forms),
+   NOT by Login/Register anymore. Scoped to :not(.login-wrapper) so it can no
+   longer override .login-btn's gradient. */
+.wrapper:not(.login-wrapper) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+  font-weight: 700;
+}
+
+.wrapper:not(.login-wrapper) form {
+  padding: 2.5rem 3rem;
+}
+
+.wrapper:not(.login-wrapper) form .btn {
+  background-color: #fa9c23;
+  border-color: #fa9c23;
+  color: white;
+  margin-top: 2.5rem;
+}
+
+.wrapper:not(.login-wrapper) form a {
+  font-size: 0.9rem;
+  color: grey;
+}
+
+
+/* ==========================================================================
+   5. AVATAR (general / profile)
+   ========================================================================== */
+
+.avatar {
+  display: inline-block;
+  margin-bottom: 0;
+  height: 3rem;
+  width: 3rem;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-profile {
+  height: 16rem;
+  width: 16rem;
+}
+
+
+/* ==========================================================================
+   6. HOME PAGE / PRODUCT CARDS
+   ========================================================================== */
+
 #products_heading {
   margin-top: 1.8rem;
 }
@@ -92,14 +309,14 @@ nav {
   font-size: 1.4rem;
 }
 
-#view_btn {
-  background-color: #fa9c23;
-  color: white;
-}
-
 .card-img-top {
   width: 200px;
   height: 150px;
+}
+
+#view_btn {
+  background-color: #fa9c23;
+  color: white;
 }
 
 .ratings {
@@ -113,15 +330,10 @@ nav {
   margin-left: 0.5rem;
 }
 
-/* Footer */
-footer {
-  margin-top: 8rem;
-  color: grey;
-  bottom: 0;
-  width: 100%;
-}
 
-/* Ratings */
+/* ==========================================================================
+   7. RATINGS (star widget)
+   ========================================================================== */
 
 .rating-outer {
   display: inline-block;
@@ -148,7 +360,11 @@ footer {
   color: #f8ce0b;
 }
 
-/* Product Details Page */
+
+/* ==========================================================================
+   8. PRODUCT DETAILS PAGE
+   ========================================================================== */
+
 #product_id {
   color: grey;
   font-size: 0.8rem;
@@ -190,7 +406,11 @@ footer {
   margin-top: 9rem;
 }
 
-/* Loader */
+
+/* ==========================================================================
+   9. LOADER
+   ========================================================================== */
+
 .loader {
   display: block;
   margin-left: auto;
@@ -200,6 +420,7 @@ footer {
   height: 80px;
   padding-left: 0;
 }
+
 .loader:after {
   content: ' ';
   display: block;
@@ -211,16 +432,21 @@ footer {
   border-color: #fa9c23 transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
-/* Cart */
+
+/* ==========================================================================
+   10. CART
+   ========================================================================== */
 
 .cart-item {
   margin: 1.8rem 0rem;
@@ -244,6 +470,28 @@ footer {
   font-weight: bold;
   font-size: 1.4rem;
 }
+
+.stockCounter input {
+  border: none;
+  width: 3rem;
+  text-align: center;
+}
+
+.plus,
+.minus {
+  padding: 0.1rem 0.5rem;
+}
+
+.stockCounter input::-webkit-outer-spin-button,
+.stockCounter input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   11. CHECKOUT / ORDER SUMMARY
+   ========================================================================== */
 
 #checkout_btn,
 .review-btn {
@@ -269,91 +517,25 @@ footer {
   font-weight: bold;
 }
 
-.stockCounter input {
-  border: none;
-  width: 3rem;
-  text-align: center;
+.order-confirm p,
+.order-details p {
+  margin-left: 1.5rem;
 }
 
-.plus,
-.minus {
-  padding: 0.1rem 0.5rem;
-}
-
-.stockCounter input::-webkit-outer-spin-button,
-.stockCounter input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.form-control:disabled,
-.form-control[readonly] {
-  background-color: white;
-}
-
-/* Login & Register */
-
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5rem;
-
-  font-weight: 700;
-}
-
-.wrapper form {
-  padding: 2.5rem 3rem;
-}
-
-.wrapper form .btn {
+.update-btn {
   background-color: #fa9c23;
   border-color: #fa9c23;
   color: white;
-  margin-top: 2.5rem;
 }
 
-.wrapper form a {
-  font-size: 0.9rem;
-  color: grey;
+.update-btn:hover {
+  color: white;
 }
 
-/* Avatar */
-.avatar {
-  display: inline-block;
-  margin-bottom: 0;
-  height: 3rem;
-  width: 3rem;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-}
 
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.rounded-circle {
-  border-radius: 50% !important;
-}
-
-.btn.focus,
-.btn:focus {
-  outline: 0;
-  box-shadow: none;
-}
-
-/* Header User Profile */
-
-.avatar-nav {
-  margin-right: 0.6rem;
-  height: 2.2rem;
-  width: 2.2rem;
-}
-
-/* Checkout Steps */
+/* ==========================================================================
+   12. CHECKOUT STEPS (progress indicator)
+   ========================================================================== */
 
 .checkout-progress div {
   box-sizing: border-box;
@@ -427,12 +609,10 @@ footer {
   margin-right: -1px;
 }
 
-/* User Profile */
 
-.avatar-profile {
-  height: 16rem;
-  width: 16rem;
-}
+/* ==========================================================================
+   13. USER PROFILE
+   ========================================================================== */
 
 .user-info h4 {
   font-weight: 800;
@@ -449,135 +629,10 @@ footer {
   border-color: #fa9c23;
 }
 
-/* Confirm Order */
 
-.order-confirm p,
-.order-details p {
-  margin-left: 1.5rem;
-}
-
-.update-btn {
-  background-color: #fa9c23;
-  border-color: #fa9c23;
-  color: white;
-}
-
-.update-btn:hover {
-  color: white;
-}
-
-/* Pagination */
-.page-item.active .page-link {
-  background-color: #fa9c23;
-  border-color: #fa9c23;
-}
-
-.page-link {
-  color: #fa9c23;
-}
-
-.page-link:hover {
-  color: #fa9c23;
-}
-
-/* Admin Sidebar */
-
-.sidebar-wrapper {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
-  min-height: 100vh;
-  font-weight: normal;
-
-  margin-top: 0;
-  height: 100%;
-  left: 0;
-  top: 0;
-  z-index: 10;
-}
-#sidebar {
-  min-width: 100%;
-  max-width: 100%;
-  background: #232f3e;
-  color: #fff;
-  transition: all 0.3s;
-}
-#sidebar.active {
-  margin-left: -250px;
-}
-
-#sidebar .sidebar-header {
-  padding: 20px;
-  background: #232f3e;
-}
-#sidebar ul.components {
-  padding: 5px 0px;
-  border-bottom: 1px solid #232f3e;
-}
-
-#sidebar ul li a {
-  padding: 10px;
-  font-size: 1.1em;
-  display: block;
-  color: white;
-  text-decoration: none;
-}
-#sidebar ul li a:hover {
-  color: #232f3e;
-  background: #fff;
-}
-
-#sidebar ul li a i {
-  margin-right: 0.3rem;
-}
-
-#sidebar ul li.active > a,
-a[aria-expanded='true'] {
-  color: #fff;
-  background: #232f3e;
-}
-a[data-toggle='collapse'] {
-  position: relative;
-}
-.dropdown-toggle::after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-}
-
-ul ul a {
-  font-size: 1rem !important;
-  padding-left: 30px !important;
-  background: #232f3e;
-}
-
-ul.CTAs {
-  padding: 20px;
-}
-
-ul.CTAs a {
-  text-align: center;
-  font-size: 0.9em !important;
-  display: block;
-  border-radius: 5px;
-  margin-bottom: 5px;
-}
-
-/* Products List Admin */
-#products_table .btn {
-  padding: 0.2rem 0.5rem;
-  margin-left: 0.4rem;
-}
-
-/* Dashboard */
-
-.card-font-size {
-  font-size: 1.5rem;
-}
-
-/* Reviews */
+/* ==========================================================================
+   14. REVIEWS
+   ========================================================================== */
 
 .rating {
   margin-top: 10rem;
@@ -613,4 +668,141 @@ ul.CTAs a {
 .review_user {
   font-size: 0.8rem;
   color: grey;
+}
+
+
+/* ==========================================================================
+   15. PAGINATION
+   ========================================================================== */
+
+.page-item.active .page-link {
+  background-color: #fa9c23;
+  border-color: #fa9c23;
+}
+
+.page-link {
+  color: #fa9c23;
+}
+
+.page-link:hover {
+  color: #fa9c23;
+}
+
+
+/* ==========================================================================
+   16. ADMIN SIDEBAR
+   ========================================================================== */
+
+.sidebar-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  min-height: 100vh;
+  font-weight: normal;
+  margin-top: 0;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+#sidebar {
+  min-width: 100%;
+  max-width: 100%;
+  background: #232f3e;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: #232f3e;
+}
+
+#sidebar ul.components {
+  padding: 5px 0px;
+  border-bottom: 1px solid #232f3e;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+  color: white;
+  text-decoration: none;
+}
+
+#sidebar ul li a:hover {
+  color: #232f3e;
+  background: #fff;
+}
+
+#sidebar ul li a i {
+  margin-right: 0.3rem;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded='true'] {
+  color: #fff;
+  background: #232f3e;
+}
+
+a[data-toggle='collapse'] {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+ul ul a {
+  font-size: 1rem !important;
+  padding-left: 30px !important;
+  background: #232f3e;
+}
+
+ul.CTAs {
+  padding: 20px;
+}
+
+ul.CTAs a {
+  text-align: center;
+  font-size: 0.9em !important;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+
+/* ==========================================================================
+   17. ADMIN — PRODUCTS TABLE & DASHBOARD
+   ========================================================================== */
+
+#products_table .btn {
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.4rem;
+}
+
+.card-font-size {
+  font-size: 1.5rem;
+}
+
+
+/* ==========================================================================
+   18. FOOTER
+   ========================================================================== */
+
+footer {
+  margin-top: 8rem;
+  color: grey;
+  bottom: 0;
+  width: 100%;
 }

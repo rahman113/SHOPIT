@@ -38,6 +38,8 @@ import {
     CLEAR_ERRORS
 } from '../constants/userConstants'
 
+import { CLEAR_CART } from '../constants/cartConstants'
+
 // Login
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -76,9 +78,7 @@ export const register = (userData) => async (dispatch) => {
                 'Content-Type': 'multipart/form-data'
             }
         }
-
         const { data } = await axios.post('/api/v1/register', userData, config)
-
         dispatch({
             type: REGISTER_USER_SUCCESS,
             payload: data.user
@@ -224,12 +224,14 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 // Logout user
 export const logout = () => async (dispatch) => {
     try {
-
         await axios.get('/api/v1/logout')
 
         dispatch({
             type: LOGOUT_SUCCESS,
         })
+        // clear local storage when user logouts
+        localStorage.removeItem("cartItems")
+        dispatch({ type: CLEAR_CART })
 
     } catch (error) {
         dispatch({

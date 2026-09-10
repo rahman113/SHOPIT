@@ -1,19 +1,18 @@
-
 # dependencies
 /node_modules/
 /frontend/node_modules/
 
-
 # production
 /frontend/build
 
-# misc
+# environment files
 /backend/config/config.env
 /frontend/.env.local
 /frontend/.env.development.local
 /frontend/.env.test.local
 /frontend/.env.production.local
 
+# misc
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+yarn-error.log*backend/config/config.env

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
+import { countries } from 'countries-list'
 
 import MetaData from '../layout/MetaData'
 import CheckoutSteps from './CheckoutSteps'
@@ -28,6 +29,7 @@ const ConfirmOrder = ({ history }) => {
         sessionStorage.setItem('orderInfo', JSON.stringify(data))
         history.push('/payment')
     }
+    const countryName = shippingInfo.country && countries[shippingInfo.country]?.name
 
     return (
         <Fragment>
@@ -42,7 +44,8 @@ const ConfirmOrder = ({ history }) => {
                     <h4 className="mb-3">Shipping Info</h4>
                     <p><b>Name:</b> {user && user.name}</p>
                     <p><b>Phone:</b> {shippingInfo.phoneNo}</p>
-                    <p className="mb-4"><b>Address:</b> {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`}</p>
+
+                    <p className="mb-4"><b>Address:</b> {`${shippingInfo.address}, ${countryName}`}</p>
 
                     <hr />
                     <h4 className="mt-4">Your Cart Items:</h4>

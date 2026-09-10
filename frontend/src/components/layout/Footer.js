@@ -1,15 +1,15 @@
-import React, { Fragment } from 'react'
+
 
 const Footer = () => {
-    return (
-        <Fragment>
-            <footer className="py-1">
-                <p className="text-center mt-1">
-                    Shopping Cart - 2019-2020, All Rights Reserved
-                </p>
-            </footer>
-        </Fragment>
-    )
-}
+    const currentYear = new Date().getFullYear();
 
-export default Footer
+    return (
+        <footer className="py-1" aria-label="Site footer">
+            <p className="text-center blue-text mt-1">
+                Shopping Cart Ecommerce &copy; 2022–{currentYear}, All Rights Reserved
+            </p>
+        </footer>
+    );
+};
+
+export default Footer;

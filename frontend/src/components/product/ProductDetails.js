@@ -46,27 +46,21 @@ const ProductDetails = ({ match }) => {
 
     const addToCart = () => {
         dispatch(addItemToCart(match.params.id, quantity));
+        console.log("quantity", quantity);
+
         alert.success('Item Added to Cart')
     }
 
     const increaseQty = () => {
-        const count = document.querySelector('.count')
+        if (quantity >= product.stock) return;
 
-        if (count.valueAsNumber >= product.stock) return;
-
-        const qty = count.valueAsNumber + 1;
-        setQuantity(qty)
+        setQuantity(prevQty => prevQty + 1);
     }
 
     const decreaseQty = () => {
+        if (quantity <= 1) return;
 
-        const count = document.querySelector('.count')
-
-        if (count.valueAsNumber <= 1) return;
-
-        const qty = count.valueAsNumber - 1;
-        setQuantity(qty)
-
+        setQuantity(prevQty => prevQty - 1);
     }
 
     function setUserRatings() {

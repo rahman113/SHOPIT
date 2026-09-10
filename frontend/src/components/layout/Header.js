@@ -12,7 +12,6 @@ import '../../App.css'
 const Header = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
-
     const { user, loading } = useSelector(state => state.auth)
     const { cartItems } = useSelector(state => state.cart)
 
@@ -20,14 +19,13 @@ const Header = () => {
         dispatch(logout());
         alert.success('Logged out successfully.')
     }
-
     return (
-        <Fragment>
-            <nav className="navbar row">
+        <>
+            <nav className="navbar row sticky-top">
                 <div className="col-12 col-md-3">
                     <div className="navbar-brand">
                         <Link to="/">
-                            <img src="/images/shopit_logo.png" />
+                            <img src="/images/shopit_logo.png" alt='Shop It Logo' />
                         </Link>
                     </div>
                 </div>
@@ -36,28 +34,30 @@ const Header = () => {
                     <Route render={({ history }) => <Search history={history} />} />
                 </div>
 
-                <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-                    <Link to="/cart" style={{ textDecoration: 'none' }} >
-                        <span id="cart" className="ml-3">Cart</span>
-                        <span className="ml-1" id="cart_count">{cartItems.length}</span>
+                <div className="col-12 col-md-3 mt-4 mt-md-0 d-flex align-items-center justify-content-end">
+
+                    <Link to="/cart" style={{ textDecoration: 'none' }} className="d-flex align-items-center mr-4">
+                        <div className="cart-icon-wrapper position-relative">
+                            <i className="fa fa-shopping-cart text-white" aria-hidden="true"></i>
+                            <span id="cart_count">{cartItems.length}</span>
+                        </div>
+                        <span id="cart" className="ml-2">Cart</span>
                     </Link>
-
                     {user ? (
-                        <div className="ml-4 dropdown d-inline">
-                            <Link to="#!" className="btn dropdown-toggle text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div className="dropdown d-inline">
+                            <Link to="#!" className="btn dropdown-toggle text-white d-flex align-items-center p-0" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                                <figure className="avatar avatar-nav">
+                                <figure className="avatar avatar-nav mb-0">
                                     <img
                                         src={user.avatar && user.avatar.url}
                                         alt={user && user.name}
                                         className="rounded-circle"
                                     />
                                 </figure>
-                                <span>{user && user.name}</span>
+                                <span className="ml-2">{user && user.name}</span>
                             </Link>
 
                             <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
-
                                 {user && user.role === 'admin' && (
                                     <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
                                 )}
@@ -66,18 +66,12 @@ const Header = () => {
                                 <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>
                                     Logout
                                 </Link>
-
                             </div>
-
-
                         </div>
-
-                    ) : !loading && <Link to="/login" className="btn ml-4" id="login_btn">Login</Link>}
-
-
+                    ) : !loading && <Link to="/login" className="btn" id="login_btn">Login</Link>}
                 </div>
             </nav>
-        </Fragment>
+        </>
     )
 }
 

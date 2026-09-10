@@ -56,7 +56,8 @@ const Payment = ({ history }) => {
     }
 
     const paymentData = {
-        amount: Math.round(orderInfo.totalPrice * 100)
+        amount: Math.round(orderInfo.totalPrice * 100),
+        shippingInfo
     }
 
     const submitHandler = async (e) => {
@@ -75,6 +76,9 @@ const Payment = ({ history }) => {
 
             res = await axios.post('/api/v1/payment/process', paymentData, config)
 
+            console.log("res--------", res);
+
+
             const clientSecret = res.data.client_secret;
 
             console.log(clientSecret);
@@ -88,11 +92,19 @@ const Payment = ({ history }) => {
                     card: elements.getElement(CardNumberElement),
                     billing_details: {
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        address: {
+                            line1: shippingInfo.address,
+                            city: shippingInfo.city,
+                            state: shippingInfo.state,
+                            postal_code: shippingInfo.postalCode,
+                            country: shippingInfo.country
+                        }
                     }
                 }
             });
 
+            console.log("result-----", result);
             if (result.error) {
                 alert.error(result.error.message);
                 document.querySelector('#pay_btn').disabled = false;

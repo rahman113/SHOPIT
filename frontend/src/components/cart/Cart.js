@@ -89,7 +89,6 @@ const Cart = ({ history }) => {
                             ))}
 
                         </div>
-
                         <div className="col-12 col-lg-3 my-4">
                             <div id="order_summary">
                                 <h4>Order Summary</h4>

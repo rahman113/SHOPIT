@@ -9,7 +9,8 @@ import { saveShippingInfo } from '../../actions/cartActions'
 
 const Shipping = ({ history }) => {
 
-    const countriesList = Object.values(countries)
+    // entries gives [isoCode, countryData] pairs
+    const countriesList = Object.entries(countries)
 
     const { shippingInfo } = useSelector(state => state.cart)
 
@@ -96,23 +97,21 @@ const Shipping = ({ history }) => {
                                 onChange={(e) => setCountry(e.target.value)}
                                 required
                             >
-
-                                {countriesList.map(country => (
-                                    <option key={country.name} value={country.name}>
-                                        {country.name}
+                                <option value="">Select Country</option>
+                                {countriesList.map(([isoCode, countryData]) => (
+                                    <option key={isoCode} value={isoCode}>
+                                        {countryData.name}
                                     </option>
                                 ))}
-
                             </select>
                         </div>
-
                         <button
                             id="shipping_btn"
                             type="submit"
                             className="btn btn-block py-3"
                         >
                             CONTINUE
-                            </button>
+                        </button>
                     </form>
                 </div>
             </div>

@@ -1,21 +1,20 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import Pagination from 'react-js-pagination'
 import Slider from 'rc-slider'
-import 'rc-slider/assets/index.css';
+import 'rc-slider/assets/index.css'
 
 import MetaData from './layout/MetaData'
 import Product from './product/Product'
 import Loader from './layout/Loader'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useAlert } from 'react-alert';
+import { useAlert } from 'react-alert'
 import { getProducts } from '../actions/productActions'
 
-const { createSliderWithTooltip } = Slider;
+const { createSliderWithTooltip } = Slider
 const Range = createSliderWithTooltip(Slider.Range)
 
-const Home = ({ match }) => {
-
+const Home = ({ match, history }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([1, 1000])
     const [category, setCategory] = useState('')
@@ -28,7 +27,7 @@ const Home = ({ match }) => {
         'Accessories',
         'Headphones',
         'Food',
-        "Books",
+        'Books',
         'Clothes/Shoes',
         'Beauty/Health',
         'Sports',
@@ -36,10 +35,12 @@ const Home = ({ match }) => {
         'Home'
     ]
 
-    const alert = useAlert();
-    const dispatch = useDispatch();
+    const alert = useAlert()
+    const dispatch = useDispatch()
 
-    const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(state => state.products)
+    const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(
+        state => state.products
+    )
 
     const keyword = match.params.keyword
 
@@ -48,31 +49,37 @@ const Home = ({ match }) => {
             return alert.error(error)
         }
 
-        dispatch(getProducts(keyword, currentPage, price, category, rating));
-
-
+        dispatch(getProducts(keyword, currentPage, price, category, rating))
     }, [dispatch, alert, error, keyword, currentPage, price, category, rating])
 
     function setCurrentPageNo(pageNumber) {
         setCurrentPage(pageNumber)
     }
 
-    let count = productsCount;
+    let count = productsCount
     if (keyword) {
         count = filteredProductsCount
     }
 
+    const clearFiltersHandler = () => {
+        setCategory('')
+        setPrice([1, 1000])
+        setRating(0)
+        setCurrentPage(1)
+        history.push(keyword ? `/search/${keyword}` : '/')
+    }
+
     return (
         <Fragment>
-            {loading ? <Loader /> : (
+            {loading ? (
+                <Loader />
+            ) : (
                 <Fragment>
                     <MetaData title={'Buy Best Products Online'} />
-
                     <h1 id="products_heading">Latest Products</h1>
 
                     <section id="products" className="container mt-5">
                         <div className="row">
-
                             {keyword ? (
                                 <Fragment>
                                     <div className="col-6 col-md-3 mt-5 mb-5">
@@ -87,7 +94,7 @@ const Home = ({ match }) => {
                                                 defaultValue={[1, 1000]}
                                                 tipFormatter={value => `$${value}`}
                                                 tipProps={{
-                                                    placement: "top",
+                                                    placement: 'top',
                                                     visible: true
                                                 }}
                                                 value={price}
@@ -97,21 +104,45 @@ const Home = ({ match }) => {
                                             <hr className="my-5" />
 
                                             <div className="mt-5">
-                                                <h4 className="mb-3">
-                                                    Categories
-                                                </h4>
+                                                <h4 className="mb-3">Categories</h4>
+
+                                                {/* Clear Filters Button */}
+                                                {(category || rating > 0 || price[0] !== 1 || price[1] !== 1000) && (
+                                                    <button
+                                                        className="btn btn-sm btn-outline-secondary mb-3"
+                                                        onClick={clearFiltersHandler}
+                                                    >
+                                                        Clear Filters
+                                                    </button>
+                                                )}
 
                                                 <ul className="pl-0">
-                                                    {categories.map(category => (
+                                                    {categories.map(cat => (
                                                         <li
                                                             style={{
                                                                 cursor: 'pointer',
-                                                                listStyleType: 'none'
+                                                                listStyleType: 'none',
+                                                                fontWeight: category === cat ? 'bold' : 'normal',
+                                                                color: category === cat ? '#fa9c23' : 'inherit'
                                                             }}
-                                                            key={category}
-                                                            onClick={() => setCategory(category)}
+                                                            key={cat}
+                                                            onClick={() => {
+                                                                const newCat = category === cat ? '' : cat
+                                                                setCategory(newCat)
+                                                                setCurrentPage(1)
+
+                                                                const encodedCat = encodeURIComponent(newCat)
+
+                                                                if (newCat) {
+                                                                    history.push(
+                                                                        `/search/${keyword}?category=${encodedCat}`
+                                                                    )
+                                                                } else {
+                                                                    history.push(`/search/${keyword}`)
+                                                                }
+                                                            }}
                                                         >
-                                                            {category}
+                                                            {cat}
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -120,9 +151,7 @@ const Home = ({ match }) => {
                                             <hr className="my-3" />
 
                                             <div className="mt-5">
-                                                <h4 className="mb-3">
-                                                    Ratings
-                                                </h4>
+                                                <h4 className="mb-3">Ratings</h4>
 
                                                 <ul className="pl-0">
                                                     {[5, 4, 3, 2, 1].map(star => (
@@ -135,35 +164,46 @@ const Home = ({ match }) => {
                                                             onClick={() => setRating(star)}
                                                         >
                                                             <div className="rating-outer">
-                                                                <div className="rating-inner"
+                                                                <div
+                                                                    className="rating-inner"
                                                                     style={{
                                                                         width: `${star * 20}%`
                                                                     }}
-                                                                >
-                                                                </div>
+                                                                ></div>
                                                             </div>
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </div>
-
                                         </div>
                                     </div>
 
                                     <div className="col-6 col-md-9">
                                         <div className="row">
-                                            {products.map(product => (
-                                                <Product key={product._id} product={product} col={4} />
-                                            ))}
+                                            {products && products.length > 0 ? (
+                                                products.map(product => (
+                                                    <Product key={product._id} product={product} col={4} />
+                                                ))
+                                            ) : (
+                                                <div className="col-12 text-center my-5">
+                                                    <i className="fa fa-search fa-4x text-muted mb-3"></i>
+                                                    <h2 className="text-secondary">No Products Found</h2>
+                                                    <p className="text-muted">
+                                                        No items match your selected category, price range, or filter criteria.
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </Fragment>
+                            ) : products && products.length > 0 ? (
+                                products.map(product => <Product key={product._id} product={product} col={3} />)
                             ) : (
-                                    products.map(product => (
-                                        <Product key={product._id} product={product} col={3} />
-                                    ))
-                                )}
-
+                                <div className="col-12 text-center my-5">
+                                    <i className="fa fa-search fa-4x text-muted mb-3"></i>
+                                    <h2 className="text-secondary">No Products Found</h2>
+                                </div>
+                            )}
                         </div>
                     </section>
 
@@ -183,10 +223,8 @@ const Home = ({ match }) => {
                             />
                         </div>
                     )}
-
                 </Fragment>
             )}
-
         </Fragment>
     )
 }

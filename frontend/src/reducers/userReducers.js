@@ -38,7 +38,7 @@ import {
     DELETE_USER_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
 } from '../constants/userConstants'
 
 export const authReducer = (state = { user: {} }, action) => {
@@ -98,7 +98,6 @@ export const authReducer = (state = { user: {} }, action) => {
                 ...state,
                 error: null
             }
-
         default:
             return state
     }
